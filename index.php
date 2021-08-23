@@ -49,8 +49,25 @@ include('./DB.php');
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <title>Document</title>
+    <style>
+/*checkbox*/
+
+@supports (zoom:2) {
+    input[type="radio"],  input[type=checkbox]{
+    zoom: 2;
+    }
+}
+@supports not (zoom:2) {
+    input[type="radio"],  input[type=checkbox]{
+        transform: scale(2);
+        margin: 15px;
+    }
+}
+
+    </style>
 </head>
 <body>
+    
 
     <form class="form" action="" method="POST">
       
@@ -63,7 +80,7 @@ include('./DB.php');
          <div class="form-group row">
             <label class="col-sm-2 col-form-label" >Vienmetis</label>
             <div class="col-sm-4">
-                <input class="form-control" type="text" name="is_yearling" value="<?= (isset($plant))? $plant['is_yearling'] : "" ?>">
+                <input type="checkbox" name="is_yearling" >
             </div>
          </div>
          <div class="form-group row">
@@ -87,18 +104,28 @@ include('./DB.php');
         <th>Id</th> 
         <th>Augalo pavadinimas</th> 
         <th>Vienmetis</th> 
-        <th>Kiekis</th> 
+        <th>Kiekis</th>
+        <th>Augalai</th> 
         <th>edit</th> 
         <th>delete</th> 
         </tr>
 
 
-        <?php $count = 0; foreach (allOld() as $plant) {  ?>
+        <?php $count = 0; foreach (allOld() as $plant) {
+            $checked = "";
+            if( $plant['is_yearling']){
+                $checked = "checked";
+            }  
+            ?>
             <tr>
             <td> <?= ++$count."/".$plant['id']  ?> </td>
                 <td> <?= $plant['name']  ?> </td>
+                <td>
+                    <input type="checkbox" name="" id=<?=$checked?> disabled>
+                </td>
                 <td> <?= $plant['is_yearling']  ?> </td>
                 <td> <?= $plant['quantity']  ?> </td>
+                <td> <a class="btn btn-primary" href="?edit=<?= $plant['id']  ?>">augalai</a> </td>
                 <td>
                     <a class="btn btn-success" href="?edit=<?= $plant['id']  ?>">edit</a>
                 </td>
